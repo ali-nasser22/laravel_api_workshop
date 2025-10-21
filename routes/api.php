@@ -1,19 +1,20 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpFoundation\Response;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
-Route::get('/', function () {
-    return response()->json(['message' => 'Hello Api'], Response::HTTP_OK);
-});
-
-
+/* Auth Routes*/
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+
+/* Ticket Routes*/
+Route::get('/tickets', function () {
+    return Ticket::all();
+});
