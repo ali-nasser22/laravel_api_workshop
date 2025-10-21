@@ -15,4 +15,5 @@ Route::get('/', function () {
 });
 
 
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
