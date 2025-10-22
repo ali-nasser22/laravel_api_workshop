@@ -19,7 +19,7 @@ return [
         '%s%s',
         'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
         Sanctum::currentApplicationUrlWithPort(),
-        // Sanctum::currentRequestHost(),
+    // Sanctum::currentRequestHost(),
     ))),
 
     /*
@@ -46,7 +46,7 @@ return [
     | "expires_at" attribute, but first-party sessions are not affected.
     |
     */
-
+    // the vaalue should be numeric fot minutes, example 60--> 1hr, 
     'expiration' => null,
 
     /*
