@@ -19,7 +19,11 @@ class TicketResource extends JsonResource
             'id' => $this->id,
             'attributes' => [
                 'title' => $this->title,
-                'description' => $this->description,
+                // conditionally include 'description' in the response based on the route
+                'description' => $this->when(
+                    $request->routeIs('tickets.show'),
+                    $this->description
+                ),
                 'status' => $this->status,
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
@@ -34,6 +38,10 @@ class TicketResource extends JsonResource
                         'self' => 'todo',
                     ]
                 ]
+            ],
+            // no idea why I included 'author' and 'includes' in the same response
+            'includes' => [
+                UserResource::make($this->user)
             ],
             'links' => [
                 [
