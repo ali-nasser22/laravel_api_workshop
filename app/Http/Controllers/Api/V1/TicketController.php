@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Filters\V1\TicketFilter;
 use App\Http\Requests\Api\V1\TicketRequest;
 use App\Http\Resources\V1\TicketResource;
 use App\Models\Ticket;
@@ -14,16 +15,11 @@ class TicketController extends ApiController
 {
     use ApiResponses;
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function index()
+
+    public function index(TicketFilter $filters)
     {
-        if ($this->include('author')) {
-            return TicketResource::collection(Ticket::with('user')->paginate(10));
-        }
-        return TicketResource::collection(Ticket::paginate(10));
+
+        return TicketResource::collection(Ticket::filter($filters)->paginate(10));
     }
 
     public function store(TicketRequest $request)
