@@ -28,25 +28,21 @@ class TicketResource extends JsonResource
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
             ],
-            'relationships' => [
+            'relationships' => $this->when($request->routeIs('tickets.*'), [
                 'author' => [
                     'data' => [
                         'type' => 'user',
                         'id' => $this->user_id
                     ],
                     'links' => [
-                        'self' => 'todo',
+                        'self' => route('users.show', $this->user_id),
                     ]
                 ]
-            ],
-            // no idea why I included 'author' and 'includes' in the same response
-            'includes' => [
-                UserResource::make($this->user)
-            ],
+            ]),
+            // 'includes' will only be added to response when the $this->user is loaded in TicketController
+            'includes' => new UserResource($this->whenLoaded('user')),
             'links' => [
-                [
-                    'self' => route("tickets.show", $this->id),
-                ]
+                'self' => route("tickets.show", $this->id)
             ]
         ];
     }
